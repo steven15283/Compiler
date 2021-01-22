@@ -1,0 +1,14 @@
+﻿  main.cpp
+  parser.cpp
+  scanner.cpp
+  Generating Code...
+C:\Users\steve\Desktop\project2\Project2\scanner.cpp(148,9): warning C4101: 'nextState': unreferenced local variable
+parser.obj : error LNK2005: "enum states (* table)[22]" (?table@@3PAY0BG@W4states@@A) already defined in main.obj
+parser.obj : error LNK2005: "class std::vector<class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >,class std::allocator<class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > > > tokenNames" (?tokenNames@@3V?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@A) already defined in main.obj
+parser.obj : error LNK2005: "class std::vector<class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >,class std::allocator<class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > > > keywords" (?keywords@@3V?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@A) already defined in main.obj
+parser.obj : error LNK2005: "class std::vector<struct Token,class std::allocator<struct Token> > tokenList" (?tokenList@@3V?$vector@UToken@@V?$allocator@UToken@@@std@@@std@@A) already defined in main.obj
+scanner.obj : error LNK2005: "enum states (* table)[22]" (?table@@3PAY0BG@W4states@@A) already defined in main.obj
+scanner.obj : error LNK2005: "class std::vector<class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >,class std::allocator<class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > > > tokenNames" (?tokenNames@@3V?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@A) already defined in main.obj
+scanner.obj : error LNK2005: "class std::vector<class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >,class std::allocator<class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > > > keywords" (?keywords@@3V?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@A) already defined in main.obj
+scanner.obj : error LNK2005: "class std::vector<struct Token,class std::allocator<struct Token> > tokenList" (?tokenList@@3V?$vector@UToken@@V?$allocator@UToken@@@std@@@std@@A) already defined in main.obj
+C:\Users\steve\Desktop\project2\Project2\Debug\Project2.exe : fatal error LNK1169: one or more multiply defined symbols found
