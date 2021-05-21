@@ -1,0 +1,435 @@
+#include "parser.h"
+#include "token.h"
+#include "scanner.h"
+
+Token tk;
+
+Token scanner()
+{
+	static int i = -1;
+	i++;
+	return tokenList[i];
+}
+
+void parser() {
+
+	tk = scanner();
+	program();
+	if (tk.token == EOF_tk)
+	{ 
+		cout << "parser is done correctly" << endl;
+		return;
+	}
+	else Error("tk received, EOFTk expected");
+
+}
+
+void program() 
+{
+	cout << "program  " + tk.instance << endl;
+	vars();
+	block();
+}
+void block() 
+{
+	cout << "block  " + tk.instance << endl;
+	if(tk.token == KW_tk && tk.instance == "begin")
+	{
+		tk = scanner();
+		cout << "if_block_begin  " + tk.instance << endl;
+		vars();
+		stats();
+		if (tk.token == KW_tk && tk.instance == "end")
+		{
+			tk = scanner();
+			cout << "if_block_end  " + tk.instance << endl;
+			return ;
+		}
+		else 
+		{
+			Error("expeted end keyword");
+		}
+	}
+	else 
+	{
+		Error("expected begin keyword");
+	}
+}
+void vars() 
+{
+	cout << "vars  " + tk.instance << endl;
+	if (tk.token == KW_tk && tk.instance == "data")
+	{
+		tk = scanner();
+		cout << "if_vars_data  " + tk.instance << endl;
+		if (tk.token == ID_tk)
+		{
+			tk = scanner();
+			cout << "if_vars_id  " + tk.instance << endl;
+			if (tk.token == OP_tk && tk.instance == "=")
+			{
+				tk = scanner();
+				cout << "if_vars_=  " + tk.instance << endl;
+				if (tk.token == NUM_tk)
+				{
+					tk = scanner();
+					cout << "if_vars_num  " + tk.instance << endl;
+					if (tk.token == OP_tk && tk.instance == ".")
+					{
+						tk = scanner();
+						cout << "if_vars_.  " + tk.instance << endl;
+						vars();
+						return;
+					}
+					else
+						Error("expected . token");
+				}
+				else
+					Error("expected number token");
+
+			}
+			else
+				Error("expected = token");
+		}
+		else
+			Error("expected identifier token");
+	}
+	else
+		return;
+}
+void expr() 
+{
+	cout << "expr  " + tk.instance << endl;
+	n();
+	if (tk.token == OP_tk && tk.instance == "-")
+	{
+		tk = scanner();
+		cout << "if_expr_-  " + tk.instance << endl;
+		expr();
+	}
+	else
+		return;
+	
+	
+}
+void n() 
+{
+	cout << "n  " + tk.instance << endl;
+	a();
+	if (tk.token == OP_tk && tk.instance == "/")
+	{
+		tk = scanner();
+		cout << "if_n_/  " + tk.instance << endl;
+		n();
+	}
+	else if (tk.token == OP_tk && tk.instance == "*")
+	{
+		cout << "if_n_*  " + tk.instance << endl;
+		tk = scanner();
+		n();
+	}
+	else
+		return;
+}
+void a() 
+{
+	cout << "a  " + tk.instance << endl;
+	m();
+	if (tk.token == OP_tk && tk.instance == "+")
+	{
+		tk = scanner();
+		cout << "if_a_/   " + tk.instance << endl;
+		a();
+	}
+	else
+		return;
+}
+void m() 
+{
+	cout << "m  " + tk.instance << endl;
+	if (tk.token == OP_tk && tk.instance == "*")
+	{
+		tk = scanner();
+		cout << "if_m_*  " + tk.instance << endl;
+		m();
+	}
+	else
+		r();
+}
+void r() 
+{
+	cout << "r  " + tk.instance << endl;
+	if (tk.token == OP_tk && tk.instance == "(")
+	{
+		tk = scanner();
+		cout << "if_r_(  " + tk.instance << endl;
+		expr();
+		if (tk.token == OP_tk && tk.instance == ")")
+		{
+			tk = scanner();
+			cout << "if_r_)  " + tk.instance << endl;
+			return;
+		}
+		else
+			Error("expected ) token");
+		
+
+	}
+	else if (tk.token == ID_tk)
+	{
+		tk = scanner();
+		return;
+	}
+	else if (tk.token == NUM_tk)
+	{
+		tk = scanner();
+		return;
+	}
+	else
+		Error("expected ( , identifier, or number token");
+}
+void stats() 
+{
+	cout << "stats  " + tk.instance << endl;
+	stat();
+	mStat();
+}
+
+void mStat() 
+{
+	cout << "mStat  " + tk.instance << endl;
+	if (tk.token == KW_tk && tk.instance == "end")
+	{
+		
+		
+		stats();
+	}
+	else
+	{
+		return;
+	}
+	
+}
+  
+void stat() 
+{
+	cout << "stat  " + tk.instance << endl;
+	if (tk.token == KW_tk && tk.instance == "in")
+	{
+		tk = scanner();
+		cout << "if_stat_In  " + tk.instance << endl;
+		in();
+		if (tk.token == OP_tk && tk.instance == ".")
+		{
+			tk = scanner();
+			return;
+		}
+		else
+			Error("expected . token");
+	}
+	else if (tk.token == KW_tk && tk.instance == "out")
+	{
+		tk = scanner();
+		cout << "if_stat_out  " + tk.instance << endl;
+		out();
+		if (tk.token == OP_tk && tk.instance == ".")
+		{
+			tk = scanner();
+			cout << "if.  " + tk.instance << endl;
+			return;
+		}
+		else
+			Error("expected . token");
+		
+	}
+	else if (tk.token == KW_tk && tk.instance == "begin")
+	{
+		cout << "if_stat_begin  " + tk.instance << endl;
+		//tk = scanner();
+		block();
+	
+	}
+	else if (tk.token == KW_tk && tk.instance == "iffy")
+	{
+		tk = scanner();
+		cout << "if_stat_iffy  " + tk.instance << endl;
+		IF();
+		if (tk.token == OP_tk && tk.instance == ".")
+		{
+			tk = scanner();
+			cout << "if_stat_.  " + tk.instance << endl;
+			return;
+		}
+		else
+			Error("expected . token");
+		
+	}
+	else if (tk.token == KW_tk && tk.instance == "loop")
+	{
+		tk = scanner();
+		cout << "if_stat_loop  " + tk.instance << endl;
+		loop();
+		if (tk.token == OP_tk && tk.instance == ".")
+		{
+			tk = scanner();
+			cout << "if_stat_.  " + tk.instance << endl;
+			return;
+		}
+		else
+			Error("expected . token");
+		
+	}
+	else if (tk.token == ID_tk)
+	{
+		tk = scanner();
+		cout << "if_ID  " + tk.instance << endl;
+		assign();
+		if (tk.token == OP_tk && tk.instance == ".")
+		{
+			tk = scanner();
+			cout << "if_stat_.  " + tk.instance << endl;
+			return;
+		}
+		else
+			Error("expected . token");
+		
+	}
+	else
+		cout << "token  " + tk.instance << endl;
+		Error("expected in, out, begin, iffy, loop, assign keywords");
+	
+
+	
+}
+void in() 
+{
+	cout << "in  " + tk.instance << endl;
+	if (tk.token == ID_tk)
+	{
+		tk = scanner();
+		cout << "if_in_id  " + tk.instance << endl;
+		return;
+	}
+	else
+		Error("expected identifier");
+	
+}
+void out() 
+{
+	cout << "out  " + tk.instance << endl;
+	expr();
+	return;
+}
+void IF() 
+{
+	cout << "if  " + tk.instance << endl;
+		if (tk.token == OP_tk && tk.instance == "[")
+		{
+			tk = scanner();
+			cout << "if_IF_[  " + tk.instance << endl;
+			expr();
+			ro();
+			expr();
+			if (tk.token == OP_tk && tk.instance == "]")
+			{
+				tk = scanner();
+				cout << "if_IF_]  " + tk.instance << endl;
+				if (tk.token == KW_tk && tk.instance == "then")
+				{
+					tk = scanner();
+					cout << "if_IF_then  " + tk.instance << endl;
+					stat();
+					return;
+				}
+				else
+					Error("expected then token");
+					
+			}
+			else
+				Error("expected ] token");
+		}
+		else
+			Error("expected [ token");
+	
+}
+void loop()
+{
+	cout << "loop  " + tk.instance << endl;
+		if (tk.token == OP_tk && tk.instance == "[")
+		{
+			tk = scanner();
+			cout << "if_loop_[  " + tk.instance << endl;
+			expr();
+			ro();
+			expr();
+			if (tk.token == OP_tk && tk.instance == "]")
+			{
+				tk = scanner();
+				cout << "if_loop_]  " + tk.instance << endl;
+				stat();
+				return;
+			}
+			else
+				Error("expected ] token");
+		}
+		else
+			Error("expected [ token");
+	
+}
+void assign() 
+{
+	cout << "assign  " + tk.instance << endl;
+	if (tk.token == OP_tk && tk.instance == "=")
+	{
+		tk = scanner();
+		cout << "if_assign_=  " + tk.instance << endl;
+		expr();
+		return;
+	}
+	else
+		Error("expected = token");
+}
+void ro() 
+{
+	cout << "ro  " + tk.instance << endl;
+	if (tk.token == OP_tk && tk.instance == "<")
+	{
+		tk = scanner();
+		cout << "if_ro_<  " + tk.instance << endl;
+		if (tk.token == OP_tk && tk.instance == "<")
+		{
+			tk = scanner();
+			cout << "if_ro_<  " + tk.instance << endl;
+			return;
+		}
+		else if (tk.token == OP_tk && tk.instance == ">")
+		{
+			tk = scanner();
+			cout << "if_ro_>  " + tk.instance << endl;
+			return;
+		}
+		else
+			return;
+	}
+	else if (tk.token == OP_tk && tk.instance == ">")
+	{
+		tk = scanner();
+		cout << "if_ro_>  " + tk.instance << endl;
+		if (tk.token == OP_tk && tk.instance == ">")
+		{
+			tk = scanner();
+			cout << "if_ro_>  " + tk.instance << endl;
+			return;
+		}
+		else
+			return;
+
+	}
+	else if (tk.token == OP_tk && tk.instance == "==")
+	{
+		tk = scanner();
+		cout << "if_ro_==  " + tk.instance << endl;
+		return;
+	}
+	
+}
