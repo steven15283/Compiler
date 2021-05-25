@@ -16,7 +16,7 @@ private:
 	node* root;
 public:
 	Tree();
-	node* getRoot();
+	node *getRoot();
 
 	void printInorder(node* rootP, string filename);// this prints the tree in inorder traversal
 	void printPreorder(node* rootP, string filename);//this prints the tree in preorder traversal

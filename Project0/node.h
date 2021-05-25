@@ -11,7 +11,7 @@ using namespace std;
 //this is the binary tree
 struct node
 {
-
+	
 	int length;//this holds the length of strings that are at the node
 	vector <string> words;//this holds all the strings that have the specific length
 	node* Left_link = nullptr;//points to left link

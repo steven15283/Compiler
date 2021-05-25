@@ -223,8 +223,6 @@ Node* m()
 
 	if (tk.token == OP_tk && tk.instance == "*")
 	{
-		
-		
 		node->token1 = new Token(tk);
 		tk = scanner();
 
@@ -465,12 +463,12 @@ Node* IF()
 			fprintf(op, "\tBRNEG\t %s\n", label.c_str());
 		}
 
-		//evaluate condition and do jump
+		//evaluakkte condition and do jump
 // for example if [ 8 == 8 ] out 0 . .
 		// child1 is first 8
 		// save it into var1 as a temporary variable
 		// once you get into the second value, here it is 8
-		// Sub from the second one, the first one
+		// Sub from the second one the first one
 		// if the condition is true, then execute child4
 		// How to check the condition? 
 		// each RO operation is different
@@ -527,7 +525,7 @@ Node* loop()
 
 		string label = newLabel();
 		if (node->child2->label == ">") {
-			
+			// condition is true if acc is positive
 			fprintf(op, "\tBRZPOS\t %s\n", label.c_str());
 		}
 		else if (node->child2->label == "<") {
